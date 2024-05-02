@@ -23,7 +23,7 @@ import sys
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("You hack")
+        self.Program=Directory("What is my ip")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -89,7 +89,7 @@ class Route():
         myparam=self.get_post_data()(params=("recording",))
         hi=""
         return self.render_some_json("welcome/hey.json")
-    def voirsearch(self,wow):
+    def search(self,wow):
 
         myparam=self.get_some_post_data(params=("search",))
         print(myparam,"P A R A M E T R E")
@@ -260,6 +260,13 @@ class Route():
         print("hello action")
         print("hello action")
         return self.render_figure.render_figure("welcome/aboutme.html")
+    def downloadpost(self,search):
+        print("hello action")
+        hi=self.db.Post.download()
+        self.set_notice(hi["notice"])
+        print("hello action")
+        self.render_figure.set_param("url","/whatismyip")
+        return self.render_some_json("welcome/myurl.json")
     def whatismyip(self,search):
         print("hello action")
         print("hello action")
@@ -337,8 +344,6 @@ class Route():
             self.set_json("{\"redirect\":\"/youbank\"}")
             print("session login",self.Program.get_session())
         return self.render_figure.render_json()
-    def search(self,search): 
-        return self.render_figure.render_figure("ajouter/search.html")
     def addpost(self,search): 
         return self.render_figure.render_figure("ajouter/post.html")
     def addmember(self,search): 
@@ -466,6 +471,8 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/search$': self.search,
+            '^/downloadpost$': self.downloadpost,
             '^/whatismyip$': self.whatismyip,
             '^/updatelocation$': self.updatelocation,
             '^/aboutme$': self.aboutme,
@@ -475,6 +482,7 @@ class Route():
             '^/signup$':self.save_user,
             '^/save_user$':self.save_user,
             '^/update_user$':self.update_user,
+            "^/voirpost/([0-9]+)$":self.voirpost,
             "^/seeuser/([0-9]+)$":self.seeuser,
             "^/edituser/([0-9]+)$":self.edit_user,
             "^/deleteuser/([0-9]+)$":self.delete_user,
