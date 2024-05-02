@@ -3,6 +3,15 @@ from render_figure import RenderFigure
 from user import User
 from mydb import Mydb
 
+from urllib.request import urlopen
+import re as r
+
+def getIP():
+    d = str(urlopen('http://checkip.dyndns.com/').read())
+
+    return r.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(d).group(1)
+
+
 
 from mypic import Pic
 from javascript import Js
@@ -14,7 +23,7 @@ import sys
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("You Email")
+        self.Program=Directory("You hack")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -120,6 +129,16 @@ class Route():
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         self.render_figure.set_param("post_id",hi["post_id"])
         return self.render_some_json("welcome/mypost.json")
+    def updatelocation(self,search):
+        myparam=self.get_post_data()(params=("userid","latitude","longitude",))
+        hi=self.db.User.updatelocation(myparam["latitude"],myparam["longitude"],myparam["userid"])
+        if hi:
+          self.set_notice("votre localisation a été modifié")
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+        self.render_figure.set_param("url","/")
+
+        return self.render_some_json("welcome/myurl.json")
     def updatepost(self,search):
         myparam=self.get_post_data()(params=("id","title","content",))
         hi=self.db.Post.update(myparam)
@@ -241,13 +260,16 @@ class Route():
         print("hello action")
         print("hello action")
         return self.render_figure.render_figure("welcome/aboutme.html")
+    def whatismyip(self,search):
+        print("hello action")
+        print("hello action")
+        self.render_figure.set_param("ip",getIP())
+        print("hello action")
+        return self.render_figure.render_figure("welcome/myip.html")
     def hello(self,search):
         print("hello action")
         print("hello action")
-        #self.render_figure.set_param("piece",self.dbPiece.getall())
-        #self.render_figure.set_param("practice",self.dbPractice.getall())
-        #self.render_figure.set_param("pen",self.dbPen.getall())
-        #self.render_figure.set_param("notebook",self.dbNotebook.getall())
+        self.render_figure.set_param("ip",getIP())
         print("hello action")
         return self.render_figure.render_figure("welcome/index.html")
     def delete_user(self,params={}):
@@ -444,27 +466,9 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
-            '^/createmusician$': self.createmusician,
-            '^/createband$': self.createband,
-            '^/createpost$': self.createpost,
-            '^/createmember$': self.createmember,
-            '^/createaddress$': self.createaddress,
-            '^/sendemail$': self.sendemail,
-            '^/carnetdadresses$': self.carnetdadresses,
-            '^/myurl$': self.myurl,
-            '^/myband$': self.myband,
-            '^/mydiv$': self.mydiv,
-            '^/search$': self.search,
-            '^/voirsearch$': self.voirsearch,
-            '^/ajoutermusician$': self.addmusician,
-            '^/ajouterband$': self.addband,
-            '^/ajouterpost$': self.addpost,
-            '^/voirpost/([0-9]+)$': self.voirpost,
-            '^/editerpost/([0-9]+)$': self.editerpost,
-            '^/updatepost$': self.updatepost,
-            '^/ajoutermember$': self.addmember,
+            '^/whatismyip$': self.whatismyip,
+            '^/updatelocation$': self.updatelocation,
             '^/aboutme$': self.aboutme,
-            '^/welcome$': self.welcome,
             '^/sign_in$': self.signin,
             '^/sign_up$': self.signup,
             '^/logmeout$':self.logout,

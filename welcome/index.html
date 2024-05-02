@@ -1,35 +1,40 @@
 
-<%=Fichier("./welcome","notsignedin.html").lire() if session["user_id"] == "" else Fichier("./welcome","inbox.html").lire() %>
-
+<%="pas connecté-e" if session["user_id"] == "" else params["ip"] %>
+<button onclick="myoption.hidden=false;">afficher quelques options</button>
+<div id="myoption" hidden>
+ce qu'il faut pour hacke
+<div>
+<input type="radio" id="option1"/>
+<label for="option1">
+avoir 1 browser</label>
+</div>
+<div>
+<input type="radio" id="option2"/>
+<label for="option2">
+connaitre 1 port de bateau</label>
+</div>
+<div>
+<input type="radio" id="option3"/>
+<label for="option3">
+avoir 1 gps</label>
+</div>
+</div>
 <div id="overlay">
 <div id="text">
-	<p>
-	Nouveau message
-<span class="brouillons">Mettre dans les brouillons[X]</span>
-	</p>
-	<form id="sendemailform" class="sendemail" action="/sendemail" method="post">
-			<input value="1" type="hidden" id="envoye_email" name="sent"/>
-			<input value="<%=db.User.findbyid(session["user_id"])["email"]%>" type="hidden" id="from_email" name="from"/>
+<p>
+est-ce bien votre localisation ?
+</p>
+ <div id="map"></div>
+<p>
+<button type="button" onclick="overlay.style.display='none';" >
+c'est pas ma localisation
+</button>
+</p>
+<p>
+<button type="button" id="btnlocation" data-userid="<%=session["user_id"]%>">
+c'est ma localisation
+</button>
+</p>
 
-		<div class="field">
-			<label for="from_email">A</label>
-			<select type="email" class="someselect" id="to_email" name="to">
-<option value=""></option>
-<%=render_collection(collection=db.Address.getalladdress(), partial='welcome/_optionaddress.html', as_='address')%>
-</select>
-		</div>
-		<div class="field">
-			<label for="object_email" hidden>Objet</label>
-			<input type="email" id="object_email" placeholder="Objet" name="object"/>
-		</div>
-		<div class="field contentfield">
-			<label for="content_email" hidden>Objet</label>
-			<textarea id="content_email" name="content"></textarea>
-		</div>
-		<div class="actions envoyermessage">
-			<input type="submit" id="submit_email" name="envoyer" class="left" value="&#x1F585;"/>
-			<input type="submit" id="submit_email1" class="right" name="supprimer" value="&#128465;"/>
-		</div>
-	</form>
 </div>
 </div>

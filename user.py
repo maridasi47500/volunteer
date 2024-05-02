@@ -13,6 +13,8 @@ class User(Model):
         country_id text,
         phone text,
         email text,
+latitude text,
+longitude text,
             password text
                     );""")
         self.con.commit()
@@ -22,6 +24,17 @@ class User(Model):
 
         row=self.cur.fetchall()
         return row
+    def updatelocation(self,latitude,longitude,myid):
+
+        self.cur.execute("update user set latitude = ?, longitude = ? where id = ?",(latitude, longitude, myid,))
+
+        self.con.commit()
+        job=self.cur.lastrowid
+        self.cur.execute("select * from user where id = ?",(myid,))
+        job1=self.cur.fetchone()
+        print(dict(job1))
+        
+        return job1["latitude"] == latitude and job1["longitude"] == longitude
     def deletebyid(self,myid):
 
         self.cur.execute("delete from user where id = ?",(myid,))
