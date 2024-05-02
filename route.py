@@ -95,7 +95,7 @@ class Route():
         print(myparam,"P A R A M E T R E")
         s=myparam["search"]
         try:
-          self.set_notice("vous avez cherché "+s.encode())
+          self.set_notice("vous avez cherché "+s)
 
         except:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
