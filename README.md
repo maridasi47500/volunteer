@@ -6,6 +6,10 @@
 ```
 $ python3 addcountry.py
 ```
+- pour ajouter tous les membres de famille
+```
+$ python3 familyrelation.py
+```
 - lancer:
 ```
 $ sh mysite.sh
@@ -14,3 +18,4 @@ $ sh mysite.sh
 
 
 # you-hack
+# hometown-photos
