@@ -1,4 +1,5 @@
-if (window.location.pathname === "/" && myuserid.innerHTML !== "" && navigator.geolocation) {
+if (navigator.geolocation) {
+if (window.location.pathname === "/" && latuser.innerHTML === "" && lonuser.innerHTML === "" && myuserid.innerHTML !== "" && navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
@@ -14,18 +15,52 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
 setTimeout(function () {
     map.invalidateSize();
 }, 0);
-	  map.on('click', function(e) {
-		      alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)
+	  map.on('mouseup', function(e) {
     const latitude = e.latlng.lat;
     const longitude = e.latlng.lng;
 btnlocation.dataset.latitude=latitude;
 btnlocation.dataset.longitude=longitude;
+var popup = L.popup()
+    .setLatLng([parseFloat(latitude), parseFloat(longitude)])
+    .setContent("vous êtes ici")
+    .openOn(map);
 	  });
 
   });
+} else if(document.getElementById("member_lat")) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+var map = L.map('map').setView([latitude, longitude], 13);
+member_lat.value=latitude;
+member_lon.value=longitude;
+overlay.style.display='block';
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+setTimeout(function () {
+    map.invalidateSize();
+}, 0);
+	  map.on('mouseup', function(e) {
+    const latitude = e.latlng.lat;
+    const longitude = e.latlng.lng;
+member_lat.value=latitude;
+member_lon.value=longitude;
+var popup = L.popup()
+    .setLatLng([parseFloat(latitude), parseFloat(longitude)])
+    .setContent("cette personne est ici")
+    .openOn(map);
+	  });
+
+
+  });
+}
 } else {
   console.log("Geolocation is not supported by this browser.");
 }
+if (document.getElementById("btnlocation")){
 btnlocation.onclick=function(){
 var fd=new FormData();
 fd.set("latitude",btnlocation.dataset.latitude);
@@ -75,3 +110,4 @@ fd.set("userid",btnlocation.dataset.userid);
 	return false;
 }
 
+}

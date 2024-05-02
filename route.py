@@ -3,13 +3,6 @@ from render_figure import RenderFigure
 from user import User
 from mydb import Mydb
 
-from urllib.request import urlopen
-import re as r
-
-def getIP():
-    d = str(urlopen('http://checkip.dyndns.com/').read())
-
-    return r.compile(r'Address: (\d+\.\d+\.\d+\.\d+)').search(d).group(1)
 
 
 
@@ -101,11 +94,11 @@ class Route():
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         self.render_figure.set_param("search",s)
         return self.render_figure.render_figure("welcome/voirsearch.html")
-    def createmusician(self,search):
-        myparam=self.get_post_data()(params=("name",))
-        hi=self.db.Musician.create(myparam)
+    def createmember(self,search):
+        myparam=self.get_post_data()(params=("name","sex","lat","lon",))
+        hi=self.db.Member.create(myparam)
         if hi:
-          self.set_notice("votre musician a été ajouté")
+          self.set_notice("votre member ("+hi["name"]+") a été ajouté(e)")
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         return self.render_some_json("welcome/mypic.json")
@@ -162,14 +155,6 @@ class Route():
         hi=self.db.Band.create(myparam)
         if hi:
           self.set_notice("votre band a été ajouté")
-        else:
-          self.set_notice("erreur quand vous avez envoyé le formulaire")
-        return self.render_some_json("welcome/mypic.json")
-    def createmember(self,search):
-        myparam=self.get_post_data()(params=("band_id","name",))
-        hi=self.db.Member.create(myparam)
-        if hi:
-          self.set_notice("votre member a été ajouté")
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         return self.render_some_json("welcome/mypic.json")
@@ -270,13 +255,13 @@ class Route():
     def whatismyip(self,search):
         print("hello action")
         print("hello action")
-        self.render_figure.set_param("ip",getIP())
+        self.render_figure.set_param("ip","haha")
         print("hello action")
         return self.render_figure.render_figure("welcome/myip.html")
     def hello(self,search):
         print("hello action")
         print("hello action")
-        self.render_figure.set_param("ip",getIP())
+        self.render_figure.set_param("ip","haha")
         print("hello action")
         return self.render_figure.render_figure("welcome/index.html")
     def delete_user(self,params={}):
@@ -344,8 +329,6 @@ class Route():
             self.set_json("{\"redirect\":\"/youbank\"}")
             print("session login",self.Program.get_session())
         return self.render_figure.render_json()
-    def addpost(self,search): 
-        return self.render_figure.render_figure("ajouter/post.html")
     def addmember(self,search): 
         return self.render_figure.render_figure("ajouter/member.html")
     def carnetdadresses(self,search):
@@ -471,6 +454,8 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/createmember$': self.createmember,
+            '^/addmember$': self.addmember,
             '^/search$': self.search,
             '^/downloadpost$': self.downloadpost,
             '^/whatismyip$': self.whatismyip,

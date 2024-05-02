@@ -11,6 +11,7 @@ class User(Model):
         self.cur.execute("""create table if not exists user(
         id integer primary key autoincrement,
         country_id text,
+        sex text,
         phone text,
         email text,
 latitude text,
