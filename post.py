@@ -4,6 +4,8 @@ import sys
 import re
 import requests
 from bs4 import BeautifulSoup
+from urllib.request import Request, urlopen
+
 
 from model import Model
 class Post(Model):
@@ -19,10 +21,14 @@ class Post(Model):
         self.con.commit()
         #self.con.close()
     def download(self):
+
+
         URL = "https://www.whatismyip.com/sitemap/"
-        page = requests.get(URL)
+        req = Request(URL , headers={'User-Agent': 'Mozilla/5.0'})
+
+        webpage = urlopen(req).read()
         
-        soup = BeautifulSoup(page.content, "html.parser")
+        soup = BeautifulSoup(webpage, "html.parser")
         results = soup.find(id="content")
         python_jobs = results.find_all("a")
         for link in python_jobs:
