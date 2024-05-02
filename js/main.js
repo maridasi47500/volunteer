@@ -14,6 +14,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
 setTimeout(function () {
     map.invalidateSize();
 }, 0);
+	  map.on('click', function(e) {
+		      alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)
+    const latitude = e.latlng.lat;
+    const longitude = e.latlng.lng;
+btnlocation.dataset.latitude=latitude;
+btnlocation.dataset.longitude=longitude;
+	  });
 
   });
 } else {
