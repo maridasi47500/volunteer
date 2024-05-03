@@ -111,3 +111,9 @@ fd.set("userid",btnlocation.dataset.userid);
 }
 
 }
+$(document).ready(function () {
+      $('.someselect').selectize({
+          sortField: 'text'
+      });
+  });
+

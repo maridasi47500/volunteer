@@ -1,0 +1,22 @@
+<h1>Ajouter </h1>
+<form action="/createlink" method="post">
+<input type="hidden" name="user_id" value="<%=session["user_id"]%>" id="userfamily_user_id"/>
+<div class="field">
+<label for="userfamily_member_id">chercher un membre</label>
+<select name="member_id" required class="someselect" onchange="myfamilylink.innerHTML = $(this).children('option:selected')[0].dataset.sex.value === 'f' ? 'she is my' : 'he is my';" id="userfamily_member_id">
+<option value="">sélectionner 1 membre</option>
+<%=render_collection(collection=db.Member.getall(), partial='welcome/_member.html', as_='member')%>
+</select>
+</div>
+<p id="myfamilylink"></p>
+<div class="field">
+<label for="userfamily_relationship_id">relationship name</label>
+<select name="relationship_id" required class="someselect" id="userfamily_relationship_id">
+<option value="">selectionner 1 relation</option>
+<%=render_collection(collection=db.Relationship.getall(), partial='welcome/_family.html', as_='member')%>
+	</select>
+</div>
+<div class="field">
+<input type="submit" value="ok" name="valider" id="userfamily_submit"/>
+</div>
+</form>

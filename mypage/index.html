@@ -1,6 +1,6 @@
  <!DOCTYPE html><html>
         <head>
-        <title>what is my ip</title>
+        <title>hometown album photos</title>
 <meta charset="UTF-8">
 
 
@@ -43,8 +43,8 @@
         <h1>{debutmots}</h1>
 <div id="notice"><%=session["notice"]%></div>
 <div id="myuserid" hidden><%=session["user_id"]%></div>
-<div id="latuser" hidden><%=db.User.getbyid(session["user_id"])["lat"]%></div>
-<div id="lonuser" hidden><%=db.User.getbyid(session["user_id"])["lon"]%></div>
+<div id="latuser" hidden><%=db.User.getbyid(session["user_id"])["latitude"] if session["user_id"] != "" else ""%></div>
+<div id="lonuser" hidden><%=db.User.getbyid(session["user_id"])["longitude"] if session["user_id"] != "" else ""%></div>
         {plusdemot}
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

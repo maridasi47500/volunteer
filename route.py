@@ -16,7 +16,7 @@ import sys
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("What is my ip")
+        self.Program=Directory("Hometown instagram")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -94,6 +94,14 @@ class Route():
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         self.render_figure.set_param("search",s)
         return self.render_figure.render_figure("welcome/voirsearch.html")
+    def createlink(self,search):
+        myparam=self.get_post_data()(params=("member_id","relationship_id","user_id",))
+        hi=self.db.Userfamily.create(myparam)
+        if hi:
+          self.set_notice("votre lien de famille a été ajouté(e)")
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+        return self.render_some_json("welcome/mypic.json")
     def createmember(self,search):
         myparam=self.get_post_data()(params=("name","sex","lat","lon",))
         hi=self.db.Member.create(myparam)
@@ -329,6 +337,8 @@ class Route():
             self.set_json("{\"redirect\":\"/youbank\"}")
             print("session login",self.Program.get_session())
         return self.render_figure.render_json()
+    def addlink(self,search): 
+        return self.render_figure.render_figure("ajouter/addlink.html")
     def addmember(self,search): 
         return self.render_figure.render_figure("ajouter/member.html")
     def carnetdadresses(self,search):
@@ -454,6 +464,8 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/createlink$': self.createlink,
+            '^/addlink$': self.addlink,
             '^/createmember$': self.createmember,
             '^/addmember$': self.addmember,
             '^/search$': self.search,
