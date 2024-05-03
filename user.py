@@ -10,6 +10,7 @@ class User(Model):
         self.cur=self.con.cursor()
         self.cur.execute("""create table if not exists user(
         id integer primary key autoincrement,
+        username text,
         country_id text,
         sex text,
         phone text,
@@ -81,7 +82,7 @@ longitude text,
         try:
             if params["password"] == params["passwordconfirmation"]:
                  del myhash["passwordconfirmation"]
-                 self.cur.execute("insert into user (email,country_id,phone,password) values (:email,:country_id,:phone,:password)",myhash)
+                 self.cur.execute("insert into user (username,email,country_id,phone,password) values (:username,:email,:country_id,:phone,:password)",myhash)
                  self.con.commit()
                  myid=str(self.cur.lastrowid)
 

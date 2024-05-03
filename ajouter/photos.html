@@ -1,0 +1,38 @@
+
+<%membre=params["membre"]%>
+<h1>Ajouter photo de <%=membre["name"]%></h1>
+
+<form id="createphotoform" action="/createphoto" method="post">
+<input type="hidden" name="lat" value="" id="photo_lat"/>
+<input type="hidden" name="lon" value="" id="photo_lon"/>
+<input type="hidden" name="userfamily_id" value="<%=session["user_id"]%>" id="photo_member_id"/>
+<input type="hidden" name="userfamily_id" value="<%=session["user_id"]%>" id="photo_member_id"/>
+<div class="field">
+<label for="photo_filename">ajouter 1 photo</label>
+<input type="file" name="filename" id="photo_filename" />
+</div>
+<div class="field">
+<input type="submit" value="ok" name="valider" id="photo_submit"/>
+</div>
+</form>
+
+<div id="overlay">
+        <div id="text">
+                <p>
+                cette photo a été prise à proximité, c'est bien ça ?
+                </p>
+                 <div id="map"></div>
+                 <p>
+                 <button type="button" onclick="overlay.style.display='none';" >
+                         c'est pas la localisation exacte
+                 </button>
+                 </p>
+                 <p>
+                 <button type="button" onclick="overlay.style.display='none';">
+                         c'est la localisation exacte
+                 </button>
+                 </p>
+
+        </div>
+</div>
+

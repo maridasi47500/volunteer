@@ -4,6 +4,7 @@ from post import Post
 from member import Member
 from relationship import Relationship
 from userfamily import Userfamily
+from photo import Photo
 class Mydb():
   def __init__(self):
     print("hello")
@@ -13,3 +14,4 @@ class Mydb():
     self.Member=Member()
     self.Userfamily=Userfamily()
     self.Relationship=Relationship()
+    self.Photo=Photo()

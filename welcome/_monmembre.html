@@ -1,0 +1,15 @@
+<tr>
+<td>
+<%=membre["name"]%>
+(<%="ma" if membre["sex"] == "f" else "mon"%>
+<%= membre["relation"]%>
+
+)
+</td>
+<td>
+<%=membre["sex"]%>
+</td>
+<td>
+<a href="/ajouterphoto/<%=membre["id"]%>">ajouter une photo <%="d'elle" if membre["sex"] == "f" else "de lui"%></a>
+</td>
+</tr>

@@ -57,6 +57,36 @@ var popup = L.popup()
 
   });
 }
+} else if(document.getElementById("createphotoform")) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+var map = L.map('map').setView([latitude, longitude], 13);
+photo_lat.value=latitude;
+photo_lon.value=longitude;
+overlay.style.display='block';
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+setTimeout(function () {
+    map.invalidateSize();
+}, 0);
+	  map.on('mouseup', function(e) {
+    const latitude = e.latlng.lat;
+    const longitude = e.latlng.lng;
+photo_lat.value=latitude;
+photo_lon.value=longitude;
+var popup = L.popup()
+    .setLatLng([parseFloat(latitude), parseFloat(longitude)])
+    .setContent("cette photo a été  prise ici")
+    .openOn(map);
+	  });
+
+
+  });
+}
 } else {
   console.log("Geolocation is not supported by this browser.");
 }

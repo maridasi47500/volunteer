@@ -2,10 +2,6 @@ from directory import Directory
 from render_figure import RenderFigure
 from user import User
 from mydb import Mydb
-
-
-
-
 from mypic import Pic
 from javascript import Js
 from stylesheet import Css
@@ -102,6 +98,16 @@ class Route():
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         return self.render_some_json("welcome/mypic.json")
+    def createphoto(self,search):
+        myparam=self.get_post_data()(params=("userfamily_id","filename","lat","lon",))
+        hi=self.db.Photo.create(myparam)
+        if hi:
+          self.set_notice("votre photo a été ajouté(e)")
+          self.render_figure.set_param("url","/voirphoto/"+hi["photo_id"])
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+          self.render_figure.set_param("url","/")
+        return self.render_some_json("welcome/myurl.json")
     def createmember(self,search):
         myparam=self.get_post_data()(params=("name","sex","lat","lon",))
         hi=self.db.Member.create(myparam)
@@ -266,6 +272,12 @@ class Route():
         self.render_figure.set_param("ip","haha")
         print("hello action")
         return self.render_figure.render_figure("welcome/myip.html")
+    def membrefamille(self,search):
+        print("hello action")
+        print("hello action")
+        self.render_figure.set_param("membres",self.db.Userfamily.getallbyuserid(self.Program.get_session_param("user_id")))
+        print("hello action")
+        return self.render_figure.render_figure("welcome/membrefamille.html")
     def hello(self,search):
         print("hello action")
         print("hello action")
@@ -291,12 +303,12 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
         return self.render_figure.render_figure("ajouter/editerpost.html")
-    def voirpost(self,params={}):
+    def ajouterphoto(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
         myparam=self.get_this_route_param(getparams,params)
-        self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
-        return self.render_figure.render_figure("ajouter/voirpost.html")
+        self.render_figure.set_param("membre",self.db.Userfamily.getbyid(myparam["id"]))
+        return self.render_figure.render_figure("ajouter/photos.html")
     def voirpersonne(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
@@ -312,6 +324,12 @@ class Route():
         except:
           self.Program.set_code422(True);
           return self.render_some_json("ajouter/personne1.json")
+    def voirphoto(self,params={}):
+        getparams=("id",)
+        print("get param, action see my new",getparams)
+        myparam=self.get_this_route_param(getparams,params)
+        self.render_figure.set_param("photo",self.db.Photo.getbyid(myparam["id"]))
+        return self.render_figure.render_figure("welcome/voirphoto.html")
     def seeuser(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
@@ -403,7 +421,7 @@ class Route():
         return self.render_figure.render_figure("ajouter/notebook.html")
 
     def save_user(self,params={}):
-        myparam=self.get_post_data()(params=("email","country_id","phone","password","passwordconfirmation"))
+        myparam=self.get_post_data()(params=("username","email","country_id","phone","password","passwordconfirmation"))
         self.user=self.dbUsers.create(myparam)
         if self.user["user_id"]:
             self.set_session(self.user)
@@ -464,6 +482,9 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            "^/voirphoto/([0-9]+)$":self.voirphoto,
+            '^/createphoto$': self.createphoto,
+            '^/membrefamille$': self.membrefamille,
             '^/createlink$': self.createlink,
             '^/addlink$': self.addlink,
             '^/createmember$': self.createmember,
@@ -479,7 +500,7 @@ class Route():
             '^/signup$':self.save_user,
             '^/save_user$':self.save_user,
             '^/update_user$':self.update_user,
-            "^/voirpost/([0-9]+)$":self.voirpost,
+            "^/ajouterphoto/([0-9]+)$":self.ajouterphoto,
             "^/seeuser/([0-9]+)$":self.seeuser,
             "^/edituser/([0-9]+)$":self.edit_user,
             "^/deleteuser/([0-9]+)$":self.delete_user,
