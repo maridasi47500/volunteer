@@ -101,13 +101,13 @@ class Route():
     def createphoto(self,search):
         myparam=self.get_post_data()(params=("userfamily_id","filename","lat","lon",))
         hi=self.db.Photo.create(myparam)
-        if hi:
+        if hi["photo_id"]:
           self.set_notice("votre photo a été ajouté(e)")
-          self.render_figure.set_param("url","/voirphoto/"+hi["photo_id"])
+          self.render_figure.set_param("redirect",("/voirphoto/"+hi["photo_id"]))
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
-          self.render_figure.set_param("url","/")
-        return self.render_some_json("welcome/myurl.json")
+          self.render_figure.set_param("redirect","/")
+        return self.render_some_json("welcome/redirect.json")
     def createmember(self,search):
         myparam=self.get_post_data()(params=("name","sex","lat","lon",))
         hi=self.db.Member.create(myparam)

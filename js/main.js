@@ -1,5 +1,5 @@
 if (navigator.geolocation) {
-if (window.location.pathname === "/" && latuser.innerHTML === "" && lonuser.innerHTML === "" && myuserid.innerHTML !== "" && navigator.geolocation) {
+if (window.location.pathname === "/" && latuser.innerHTML === "" && lonuser.innerHTML === "" && myuserid.innerHTML !== "") {
   navigator.geolocation.getCurrentPosition(function(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
@@ -56,7 +56,7 @@ var popup = L.popup()
 
 
   });
-}
+
 } else if(document.getElementById("createphotoform")) {
   navigator.geolocation.getCurrentPosition(function(position) {
     const latitude = position.coords.latitude;

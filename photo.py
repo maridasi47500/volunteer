@@ -59,6 +59,7 @@ class Photo(Model):
         azerty={}
         azerty["photo_id"]=myid
         azerty["notice"]="votre photo a été ajouté"
+        print(azerty)
         return azerty
 
 
