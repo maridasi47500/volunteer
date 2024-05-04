@@ -1,0 +1,39 @@
+<%membre=params["membre"]%>
+<h1>Ajouter job de <%=membre["name"]%></h1>
+
+<form id="createjobform" action="/createjob" method="post">
+<input type="hidden" name="lat" value="" id="myjob_lat"/>
+<input type="hidden" name="lon" value="" id="myjob_lon"/>
+<input type="hidden" name="member_id" value="<%=session["user_id"]%>" id="myjob_member_id"/>
+<div class="field">
+<label for="job_filename">ajouter 1 job</label>
+<select class="someselect" name="myjob_id" id="myjob_job_id">
+<%=render_collection(collection=db.Job.getall(), partial='welcome/_anyjob.html', as_='job')%>
+</select>
+
+</div>
+<div class="field">
+<input type="submit" value="ok" name="valider" id="myjob_submit"/>
+</div>
+</form>
+
+<div id="overlay">
+        <div id="text">
+                <p>
+                votre ami(e) fait ce job à proximité de vous, c'est bien ça ?
+                </p>
+                 <div id="map"></div>
+                 <p>
+                 <button type="button" onclick="overlay.style.display='none';" >
+                         c'est pas sa localisation exacte
+                 </button>
+                 </p>
+                 <p>
+                 <button type="button" onclick="overlay.style.display='none';">
+                         c'est sa localisation exacte
+                 </button>
+                 </p>
+
+        </div>
+</div>
+

@@ -1,40 +1,4 @@
+<div class="row row-cols-1 row-cols-md-2 g-4">
+<%=render_collection(collection=db.Photo.getall(), partial='welcome/_somephoto.html', as_='photo')%>
 
-<%="pas connecté-e" if session["user_id"] == "" else params["ip"] %>
-<button onclick="myoption.hidden=false;">afficher quelques options</button>
-<div id="myoption" hidden>
-ce qu'il faut pour hacke
-<div>
-<input type="radio" id="option1"/>
-<label for="option1">
-avoir 1 browser</label>
-</div>
-<div>
-<input type="radio" id="option2"/>
-<label for="option2">
-connaitre 1 port de bateau</label>
-</div>
-<div>
-<input type="radio" id="option3"/>
-<label for="option3">
-avoir 1 gps</label>
-</div>
-</div>
-<div id="overlay">
-<div id="text">
-<p>
-est-ce bien votre localisation ?
-</p>
- <div id="map"></div>
-<p>
-<button type="button" onclick="overlay.style.display='none';" >
-c'est pas ma localisation
-</button>
-</p>
-<p>
-<button type="button" id="btnlocation" data-userid="<%=session["user_id"]%>">
-c'est ma localisation
-</button>
-</p>
-
-</div>
 </div>

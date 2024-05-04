@@ -3,35 +3,33 @@ import sqlite3
 import sys
 import re
 from model import Model
-class Photo(Model):
+class Job(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
         self.con.row_factory = sqlite3.Row
         self.cur=self.con.cursor()
-        self.cur.execute("""create table if not exists photo(
+        self.cur.execute("""create table if not exists job(
         id integer primary key autoincrement,
-        userfamily_id text,
-            filename text,
-            lat text,
-            lon text
-                    );""")
+        name text
+    , MyTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP                );""")
         self.con.commit()
         #self.con.close()
     def getall(self):
-        self.cur.execute("select photo.*,user.username from photo left join userfamily a on photo.userfamily_id = a.id left join member m on m.id = a.member_id left join user on user.id = a.user_id left join relationship r on r.id = a.relationship_id")
+        self.cur.execute("select * from job")
 
         row=self.cur.fetchall()
         return row
     def deletebyid(self,myid):
 
-        self.cur.execute("delete from photo where id = ?",(myid,))
+        self.cur.execute("delete from job where id = ?",(myid,))
         job=self.cur.fetchall()
         self.con.commit()
         return None
     def getbyid(self,myid):
-        self.cur.execute("select photo.*,user.username from photo left join userfamily a on photo.userfamily_id = a.id left join member m on m.id = a.member_id left join user on user.id = a.user_id left join relationship r on r.id = a.relationship_id where photo.id = ?",(myid,))
+        self.cur.execute("select * from job where id = ?",(myid,))
         row=dict(self.cur.fetchone())
         print(row["id"], "row id")
+        job=self.cur.fetchall()
         return row
     def create(self,params):
         print("ok")
@@ -51,15 +49,14 @@ class Photo(Model):
         print(myhash,myhash.keys())
         myid=None
         try:
-          self.cur.execute("insert into photo (userfamily_id,filename,lat,lon) values (:userfamily_id,:filename,:lat,:lon)",myhash)
+          self.cur.execute("insert into job (name) values (:name)",myhash)
           self.con.commit()
           myid=str(self.cur.lastrowid)
         except Exception as e:
           print("my error"+str(e))
         azerty={}
-        azerty["photo_id"]=myid
-        azerty["notice"]="votre photo a été ajouté"
-        print(azerty)
+        azerty["job_id"]=myid
+        azerty["notice"]="votre job a été ajouté"
         return azerty
 
 

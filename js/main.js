@@ -56,6 +56,35 @@ var popup = L.popup()
 
 
   });
+} else if(document.getElementById("createjobform")) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+var map = L.map('map').setView([latitude, longitude], 13);
+myjob_lat.value=latitude;
+myjob_lon.value=longitude;
+overlay.style.display='block';
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+setTimeout(function () {
+    map.invalidateSize();
+}, 0);
+	  map.on('mouseup', function(e) {
+    const latitude = e.latlng.lat;
+    const longitude = e.latlng.lng;
+myjob_lat.value=latitude;
+myjob_lon.value=longitude;
+var popup = L.popup()
+    .setLatLng([parseFloat(latitude), parseFloat(longitude)])
+    .setContent("votre ami(e) travaille ici")
+    .openOn(map);
+	  });
+
+
+  });
 
 } else if(document.getElementById("createphotoform")) {
   navigator.geolocation.getCurrentPosition(function(position) {

@@ -98,6 +98,16 @@ class Route():
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         return self.render_some_json("welcome/mypic.json")
+    def createjob(self,search):
+        myparam=self.get_post_data()(params=("member_id","job_id","lat","lon",))
+        hi=self.db.Myjob.create(myparam)
+        if hi["photo_id"]:
+          self.set_notice("le job de votre ami(e) a été ajouté")
+          self.render_figure.set_param("redirect",("/membrefamille/"+hi["photo_id"]))
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+          self.render_figure.set_param("redirect","/")
+        return self.render_some_json("welcome/redirect.json")
     def createphoto(self,search):
         myparam=self.get_post_data()(params=("userfamily_id","filename","lat","lon",))
         hi=self.db.Photo.create(myparam)
@@ -303,6 +313,12 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
         return self.render_figure.render_figure("ajouter/editerpost.html")
+    def ajouterjob(self,params={}):
+        getparams=("id",)
+        print("get param, action see my new",getparams)
+        myparam=self.get_this_route_param(getparams,params)
+        self.render_figure.set_param("membre",self.db.Userfamily.getbyid(myparam["id"]))
+        return self.render_figure.render_figure("ajouter/jobs.html")
     def ajouterphoto(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
@@ -482,7 +498,9 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            "^/ajouterjob/([0-9]+)$":self.ajouterjob,
             "^/voirphoto/([0-9]+)$":self.voirphoto,
+            '^/createjob$': self.createjob,
             '^/createphoto$': self.createphoto,
             '^/membrefamille$': self.membrefamille,
             '^/createlink$': self.createlink,

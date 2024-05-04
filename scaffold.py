@@ -55,7 +55,8 @@ class {modelname}(Model):
         self.cur.execute(\"\"\"create table if not exists {filename}(
         id integer primary key autoincrement,
 """
-mystr+=createtable
+mystr+=createtable+","
+mystr+=" MyTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP"
 
 mystr+="""                );\"\"\")
         self.con.commit()
