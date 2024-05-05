@@ -1,14 +1,12 @@
-- bienvenue à Kel est mon ip?
+- bienvenue à VOlontaire
 
-- what is your ip ?
-- download all post from what is my ip site
+- pour ajouter des annonces de volontaires
+```
+$ python3 myads.py
+```
 - pour ajouter tous les pays et les drapeaux: 
 ```
 $ python3 addcountry.py
-```
-- pour ajouter tous les membres de famille
-```
-$ python3 familyrelation.py
 ```
 - lancer:
 ```
@@ -19,3 +17,4 @@ $ sh mysite.sh
 
 # you-hack
 # hometown-photos
+# volunteer
