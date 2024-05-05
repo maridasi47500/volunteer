@@ -1,13 +1,13 @@
-<%membre=params["membre"]%>
 <h1>Ajouter job de <%=membre["name"]%></h1>
 
 <form id="createjobform" action="/createjob" method="post">
 <input type="hidden" name="lat" value="" id="myjob_lat"/>
 <input type="hidden" name="lon" value="" id="myjob_lon"/>
-<input type="hidden" name="member_id" value="<%=session["user_id"]%>" id="myjob_member_id"/>
+<input type="hidden" name="member_id" value="<%=params["membre_id"]%>" id="myjob_member_id"/>
 <div class="field">
 <label for="job_filename">ajouter 1 job</label>
-<select class="someselect" name="myjob_id" id="myjob_job_id">
+<select class="someselect" name="job_id" id="myjob_job_id">
+<option value="">sélectionner 1 emploi</option>
 <%=render_collection(collection=db.Job.getall(), partial='welcome/_anyjob.html', as_='job')%>
 </select>
 

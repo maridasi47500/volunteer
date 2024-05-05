@@ -15,4 +15,7 @@
 <td>
 <a href="/ajouterjob/<%=membre["id"]%>">ajouter son job</a>
 </td>
+<td>
+<%=render_collection(collection=db.Job.findallbymemberid(membre['member_id']), partial='welcome/_voirjob.html', as_='job',mylocals={"userfamily_id":membre["id"]})%>
+</td>
 </tr>

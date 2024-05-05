@@ -61,7 +61,6 @@ class RenderFigure():
                   continue
               k=j.split("%>")
               print("my session",self.session)
-              loc={"db":Mydb(),"session": self.session,"render_collection": self.render_collection,"params":self.params,"getparams": self.getparams,"Fichier":Fichier,"date":date}
               #print(k[0])
               l=exec(k[0], globals(), loc)
               if k[1]:
@@ -84,7 +83,8 @@ class RenderFigure():
             paspremier=False
             ligne=0
             loc={"db":Mydb(),"paspremier":False,as_: "","index":"",  "params": self.params,"render_collection":self.render_collection,"date":date,"datetime":datetime}
-
+            for wow in mylocals:
+                loc[wow]=mylocals[wow]
             for x in collection:
                 loc["index"]=i
                 loc["paspremier"]=paspremier

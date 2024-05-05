@@ -101,15 +101,25 @@ class Route():
     def createjob(self,search):
         myparam=self.get_post_data()(params=("member_id","job_id","lat","lon",))
         hi=self.db.Myjob.create(myparam)
-        if hi["photo_id"]:
+        if hi["myjob_id"]:
           self.set_notice("le job de votre ami(e) a été ajouté")
           self.render_figure.set_param("redirect",("/membrefamille/"+hi["photo_id"]))
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
           self.render_figure.set_param("redirect","/")
         return self.render_some_json("welcome/redirect.json")
+    def createphotojob(self,search):
+        myparam=self.get_post_data()(params=("description","job_id","userfamily_id","filename","lat","lon",))
+        hi=self.db.Photo.createphotojob(myparam)
+        if hi["photo_id"]:
+          self.set_notice("votre photo a été ajouté(e)")
+          self.render_figure.set_param("redirect",("/voirphoto/"+hi["photo_id"]))
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+          self.render_figure.set_param("redirect","/")
+        return self.render_some_json("welcome/redirect.json")
     def createphoto(self,search):
-        myparam=self.get_post_data()(params=("userfamily_id","filename","lat","lon",))
+        myparam=self.get_post_data()(params=("description","userfamily_id","filename","lat","lon",))
         hi=self.db.Photo.create(myparam)
         if hi["photo_id"]:
           self.set_notice("votre photo a été ajouté(e)")
@@ -313,11 +323,22 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
         return self.render_figure.render_figure("ajouter/editerpost.html")
+    def ajouterphotojob(self,params={}):
+        getparams=("job_id","id")
+        print("get param, action see my new",getparams)
+        myparam=self.get_this_route_param(getparams,params)
+        monmembre=self.db.Userfamily.getbyid(myparam["id"])
+        self.render_figure.set_param("membre",monmembre)
+        self.render_figure.set_param("membre_id",monmembre["member_id"])
+        self.render_figure.set_param("job_id",myparam["job_id"])
+        return self.render_figure.render_figure("ajouter/photojobs.html")
     def ajouterjob(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
         myparam=self.get_this_route_param(getparams,params)
-        self.render_figure.set_param("membre",self.db.Userfamily.getbyid(myparam["id"]))
+        monmembre=self.db.Userfamily.getbyid(myparam["id"])
+        self.render_figure.set_param("membre",monmembre)
+        self.render_figure.set_param("membre_id",monmembre["member_id"])
         return self.render_figure.render_figure("ajouter/jobs.html")
     def ajouterphoto(self,params={}):
         getparams=("id",)
@@ -498,9 +519,11 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            "^/ajouterphotojob/([0-9]+)/([0-9]+)$":self.ajouterphotojob,
             "^/ajouterjob/([0-9]+)$":self.ajouterjob,
             "^/voirphoto/([0-9]+)$":self.voirphoto,
             '^/createjob$': self.createjob,
+            '^/createphotojob$': self.createphotojob,
             '^/createphoto$': self.createphoto,
             '^/membrefamille$': self.membrefamille,
             '^/createlink$': self.createlink,

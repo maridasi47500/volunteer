@@ -1,21 +1,23 @@
 
 <%membre=params["membre"]%>
-<h1>Ajouter photo de <%=membre["name"]%></h1>
+<h1>Ajouter photo du job de <%=membre["name"]%></h1>
 
-<form id="createphotoform" action="/createphoto" method="post">
+<form id="createphotojobform" action="/createphotojob" method="post">
+<input type="hidden" name="job_id" value="<%=params["job_id"]%>" id="photo_job_id"/>
 <input type="hidden" name="lat" value="" id="photo_lat"/>
 <input type="hidden" name="lon" value="" id="photo_lon"/>
 <input type="hidden" name="userfamily_id" value="<%=session["user_id"]%>" id="photo_member_id"/>
 <input type="hidden" name="userfamily_id" value="<%=session["user_id"]%>" id="photo_member_id"/>
 <div class="field">
+<label for="photo_filename">ajouter 1 photo</label>
+<input type="file" name="filename" id="photo_filename" />
+</div>
+<div class="field">
 <label for="photo_description">ajouter 1 description</label>
 <textarea name="description" id="photo_description"> </textarea>
 
 </div>
-<div class="field">
-<label for="photo_filename">ajouter 1 photo</label>
-<input type="file" name="filename" id="photo_filename" />
-</div>
+
 <div class="field">
 <input type="submit" value="ok" name="valider" id="photo_submit"/>
 </div>
