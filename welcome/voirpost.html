@@ -1,0 +1,13 @@
+<%post=params["post"]%>
+<img class="photoinstagram" src="/uploads/<%=post["filename"]%>"/>
+
+
+<h3><%=post["title"]%>  </h3>
+<p>post de <%=post["username"]%>  </p>
+
+
+<p><%=post["content"]%></p>
+
+<h4>Répondre</h4>
+<%yo="form1.html" if session["user_id"] != "" else "form2" %>
+<%=Fichier("./welcome","form2.html").lire() %>

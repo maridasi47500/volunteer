@@ -9,6 +9,7 @@ from datetime import date
 class RenderFigure():
     def __init__(self,program):
         self.session={"name":"","notice":"","mysession":False}
+        self.mottoutdebut=program.get_mottoutdebut()
         self.mytemplate="./mypage/index.html"
         self.path=program.get_path()
         self.title=program.get_title()
@@ -207,8 +208,10 @@ class RenderFigure():
         try:
           self.body+=open(os.path.abspath(self.path+"/"+filename),"r").read()
           if self.mytemplate is not None:
-              self.body= open(os.path.abspath(self.mytemplate),"r").read().format(debutmots=self.title, mot=self.headingone,plusdemot=self.body)
+              self.body= open(os.path.abspath(self.mytemplate),"r").read().format(mottoutdebut=self.mottoutdebut,debutmots=self.title, mot=self.headingone,plusdemot=self.body)
           self.body=self.render_body()
+          while "<%" in self.body and "%>" in self.body:
+              self.body=self.render_body()
           print("render figure bon")
           try:
             return self.body.encode("utf-8")

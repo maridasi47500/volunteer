@@ -1,0 +1,39 @@
+<h1>Ajouter une annonce de volontaire </h1>
+<form action="/createpost" method="post">
+<input type="hidden" name="volunteer_id" value="<%=session["user_id"]%>" id="post_lon"/>
+<div class="field">
+<label for="post_title">titre</label>
+<input type="text" name="title" id="post_title"/>
+</div>
+<div class="field">
+<label for="post_filename">ajouter 1 image</label>
+<input type="text" name="filename" id="post_filename"/>
+</div>
+<div class="field">
+<label for="post_content">content</label>
+<textarea name="content" id="post_content">
+	</textarea>
+</div>
+<div class="field">
+<input type="submit" value="ok" name="valider" id="post_submit"/>
+</div>
+</form>
+<div id="overlay">
+	<div id="text">
+		<p>
+		cette personne est à poroximité, c'est bien ça ?
+		</p>
+		 <div id="map"></div>
+		 <p>
+		 <button type="button" onclick="overlay.style.display='none';" >
+			 c'est pas sa localisation
+		 </button>
+		 </p>
+		 <p>
+		 <button type="button" onclick="overlay.style.display='none';">
+			 c'est sa localisation
+		 </button>
+		 </p>
+
+	</div>
+</div>

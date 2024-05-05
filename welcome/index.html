@@ -1,4 +1,5 @@
+<h3>Annonces des volontaires</h3>
 <div class="row row-cols-1 row-cols-md-2 g-4">
-<%=render_collection(collection=db.Photo.getall(), partial='welcome/_somephoto.html', as_='photo')%>
+<%=render_collection(collection=db.Post.getall(), partial='welcome/_somead.html', as_='ad')%>
 
 </div>

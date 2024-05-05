@@ -10,6 +10,7 @@ class Directory():
     css=False
     def __init__(self, title):
         self.title=title
+        self.mottoutdebut=title
         self.session={"email":"","user_id":"","name":"","notice":""}
         self.path="./"
         self.html=""
@@ -27,6 +28,10 @@ class Directory():
         self.session["mysession"]=True
     def not_notice(self):
         self.session["notice"]=""
+    def get_mottoutdebut(self):
+        return self.mottoutdebut
+    def set_mottoutdebut(self,x):
+        self.mottoutdebut=x
     def get_session(self):
         return self.session
     def set_other_session(self,s):

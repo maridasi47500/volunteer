@@ -1,9 +1,0 @@
-<%photo=params["photo"]%>
-<img class="photoinstagram" src="/uploads/<%=photo["filename"]%>"/>
-<%yeah=db.Photo.getjobfromphoto(params["photo"]["id"])%>
-
-<p>photo de <%=photo["membername"]%>  <%="("+yeah["name"]+")" if yeah else ""%></p>
-
-<p><%=photo["username"]%></p>
-<p><%=photo["description"]%></p>
-

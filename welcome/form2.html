@@ -1,0 +1,9 @@
+<p>il faut se connecter pour répondre</p>
+<form action="/repondre" method="post">
+<input type="hidden" disabled value="<%=session["user_id"]%>"  name="user_id"/>
+<textarea name="content" disabled>
+Bonjour,
+Je voudrais faire une bénévolat 2 heures par semaine pendant 1 semestre. Je voudrais commencer le service la semaine prochaine. Je suis sûr que j'apprécierai ce service communautaire et que j'aurai en meme temps 1 expérience précieuse.
+</textarea>
+<input type="submit" value="repondre" disabled name="repondre"/>
+</form>

@@ -12,7 +12,8 @@ import sys
 class Route():
     def __init__(self):
         self.dbUsers=User()
-        self.Program=Directory("Hometown instagram")
+        self.Program=Directory("Annonces de volontaires")
+        self.Program.set_mottoutdebut("annonce des volontaires")
         self.Program.set_path("./")
         self.mysession={"notice":None,"email":None,"name":None}
         self.render_figure=RenderFigure(self.Program)
@@ -301,7 +302,6 @@ class Route():
     def hello(self,search):
         print("hello action")
         print("hello action")
-        self.render_figure.set_param("ip","haha")
         print("hello action")
         return self.render_figure.render_figure("welcome/index.html")
     def delete_user(self,params={}):
@@ -361,12 +361,12 @@ class Route():
         except:
           self.Program.set_code422(True);
           return self.render_some_json("ajouter/personne1.json")
-    def voirphoto(self,params={}):
+    def voirpost(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
         myparam=self.get_this_route_param(getparams,params)
-        self.render_figure.set_param("photo",self.db.Photo.getbyid(myparam["id"]))
-        return self.render_figure.render_figure("welcome/voirphoto.html")
+        self.render_figure.set_param("post",self.db.Post.getbyid(myparam["id"]))
+        return self.render_figure.render_figure("welcome/voirpost.html")
     def seeuser(self,params={}):
         getparams=("id",)
         print("get param, action see my new",getparams)
@@ -394,8 +394,8 @@ class Route():
         return self.render_figure.render_json()
     def addlink(self,search): 
         return self.render_figure.render_figure("ajouter/addlink.html")
-    def addmember(self,search): 
-        return self.render_figure.render_figure("ajouter/member.html")
+    def addpost(self,search): 
+        return self.render_figure.render_figure("ajouter/post.html")
     def carnetdadresses(self,search):
         self.render_figure.set_param("address",self.db.Address.getall())
         return self.render_figure.render_figure("ajouter/carnetdadresses.html")
@@ -519,21 +519,9 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
-            "^/ajouterphotojob/([0-9]+)/([0-9]+)$":self.ajouterphotojob,
-            "^/ajouterjob/([0-9]+)$":self.ajouterjob,
-            "^/voirphoto/([0-9]+)$":self.voirphoto,
-            '^/createjob$': self.createjob,
-            '^/createphotojob$': self.createphotojob,
-            '^/createphoto$': self.createphoto,
-            '^/membrefamille$': self.membrefamille,
-            '^/createlink$': self.createlink,
-            '^/addlink$': self.addlink,
-            '^/createmember$': self.createmember,
-            '^/addmember$': self.addmember,
-            '^/search$': self.search,
-            '^/downloadpost$': self.downloadpost,
-            '^/whatismyip$': self.whatismyip,
-            '^/updatelocation$': self.updatelocation,
+            '^/voirpost/([0-9]+)$': self.voirpost,
+            '^/createpost$': self.createpost,
+            '^/addpost$': self.addpost,
             '^/aboutme$': self.aboutme,
             '^/sign_in$': self.signin,
             '^/sign_up$': self.signup,
@@ -541,7 +529,6 @@ class Route():
             '^/signup$':self.save_user,
             '^/save_user$':self.save_user,
             '^/update_user$':self.update_user,
-            "^/ajouterphoto/([0-9]+)$":self.ajouterphoto,
             "^/seeuser/([0-9]+)$":self.seeuser,
             "^/edituser/([0-9]+)$":self.edit_user,
             "^/deleteuser/([0-9]+)$":self.delete_user,
