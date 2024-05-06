@@ -14,11 +14,12 @@
       </div>
     </div>
   </div>
-  <button type="button" onclick="overlay.style.display='block';">Créer 1 rdv avec <%=myvolunteer%></button>
+  <button type="button" onclick="overlay1.style.display='block';">Créer 1 rdv avec <%=myvolunteer%></button>
   <div id="overlay1">
   <div id="text1">
 	  <h1>Créer 1 rdv avec <%=myvolunteer%></h1>
-	  <form action="/createpost" method="post">
+	  <form action="/createrdv" method="post">
+		  <input type="hidden" name="reponseid" value="<%=ad["id"]%>" id="rdv_reponseid"/>
 		  <input type="hidden" name="volunteer1_id" value="<%=session["user_id"]%>" id="rdv_volunteer1_id"/>
 		  <input type="hidden" name="volunteer2_id" value="<%=myvolunteerid%>" id="rdv_volunteer2_id"/>
 		  <input type="hidden" name="lat" value="" id="rdv_lat"/>
@@ -29,7 +30,17 @@
 				          </textarea>
 		  </div>
 		  <div class="field">
+			  <label for="rdv_heure">heure</label>
+			  <input type="time" name="heure" id="rdv_heure" />
+		  </div>
+		  <div class="field">
+			  <label for="rdv_date">date</label>
+			  <input type="date" name="date" id="rdv_date" />
+		  </div>
+		  <div class="field">
 			  <input type="submit" value="ok" name="valider" id="rdv_submit"/>
+  <button type="button" id="lieurdv">Donner 1 lieu pour le rdv</button>
+  <button type="button" onclick="overlay1.style.display='none';">Fermer</button>
 		  </div>
 	  </form>
   </div>
@@ -54,3 +65,7 @@
 
 																															           </div>
   </div>
+  <h3>Tous mes rdv avec <%=myvolunteer%></h3>
+  <ul>
+  <%=render_collection(collection=db.Rdv.getallbyuserid(session["user_id"],myvolunteerid), partial='welcome/_rdv.html', as_='rdv')%>
+  </ul>

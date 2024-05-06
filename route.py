@@ -196,6 +196,15 @@ class Route():
         else:
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         return self.render_some_json("welcome/reponse.json")
+    def createrdv(self,search):
+        myparam=self.get_post_data()(params=("reponseid","heure","date","volunteer1_id","volunteer2_id","lat","lon","content",))
+        hi=self.db.Rdv.create(myparam)
+        if hi:
+          self.set_notice("votre rdv a été ajouté")
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+        self.render_figure.set_param("oneonone",myparam["reponseid"])
+        return self.render_some_json("welcome/someoneonone.json")
     def createpost(self,search):
         myparam=self.get_post_data()(params=("band_id","user_id","title","content",))
         hi=self.db.Post.create(myparam)
@@ -546,6 +555,7 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/createrdv$': self.createrdv,
             '^/validerreponse$': self.validerreponse,
             '^/oneonone$': self.toutoneonone,
             '^/oneonone/([0-9]+)$': self.oneonone,

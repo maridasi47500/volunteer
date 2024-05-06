@@ -1,3 +1,28 @@
+$(function(){
+	var nbcarte=$(".lieurdvmap").length
+	var somemap1,map1,latitude,longitude;
+	if (nbcarte > 0){
+		for(var i=0;i<nbcarte;i++){
+			somemap1=document.getElementById("map"+String(i));
+			latitude=somemap1.dataset.latitude;
+			longitude=somemap1.dataset.longitude;
+
+map1 = L.map('map'+String(i)).setView([latitude, longitude], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map1);
+setTimeout(function () {
+    map1.invalidateSize();
+}, 0);
+var popup = L.popup()
+    .setLatLng([parseFloat(latitude), parseFloat(longitude)])
+    .setContent("vous avez rdv avec "+myvolunteer.innerHTML+" ici")
+    .openOn(map1);
+		}
+
+}
+$("#lieurdv").click(function(){
 if (navigator.geolocation) {
 if(document.getElementById("rdv_lat")) {
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -28,7 +53,12 @@ var popup = L.popup()
 
 
   });
-} else if(document.getElementById("createjobform")) {
+}
+}
+});
+});
+if (navigator.geolocation) {
+ if(document.getElementById("createjobform")) {
   navigator.geolocation.getCurrentPosition(function(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
