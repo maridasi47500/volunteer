@@ -1,10 +1,56 @@
 
 <%ad=params["reponse"]%><div class="col">
+	<%hey=ad["otrusername"] if ad else ""%>
+	<%myvolunteer=ad["username"] if ad and str(ad["volunteer_id"]) == str(session["user_id"]) else hey%>
+	<%otherid=ad["reponseuser_id"] if ad else ""%>
+	<%myvolunteerid=ad["volunteer_id"] if ad and str(ad["volunteer_id"]) != str(session["user_id"]) else otherid%>
     <div class="card">
 
       <div class="card-body">
-        <p class="card-text">Mon one on one avec <%=ad["username"] if ad else ""%></p>
+        <p class="card-text">Mon one on one avec 
+	<span id="myvolunteer"><%=myvolunteer%></span>
+
+	</p>
       </div>
     </div>
   </div>
+  <button type="button" onclick="overlay.style.display='block';">Créer 1 rdv avec <%=myvolunteer%></button>
+  <div id="overlay1">
+  <div id="text1">
+	  <h1>Créer 1 rdv avec <%=myvolunteer%></h1>
+	  <form action="/createpost" method="post">
+		  <input type="hidden" name="volunteer1_id" value="<%=session["user_id"]%>" id="rdv_volunteer1_id"/>
+		  <input type="hidden" name="volunteer2_id" value="<%=myvolunteerid%>" id="rdv_volunteer2_id"/>
+		  <input type="hidden" name="lat" value="" id="rdv_lat"/>
+		  <input type="hidden" name="lon" value="" id="rdv_lon"/>
+		  <div class="field">
+			  <label for="rdv_content">content</label>
+			  <textarea name="content" id="rdv_content">
+				          </textarea>
+		  </div>
+		  <div class="field">
+			  <input type="submit" value="ok" name="valider" id="rdv_submit"/>
+		  </div>
+	  </form>
+  </div>
+  </div>
 
+  <div id="overlay">
+	          <div id="text">
+			                  <p>
+					  <%=myvolunteer%> peut venir au rdv à proximité, c'est bien ça ?
+							                  </p>
+									                   <div id="map"></div>
+											                    <p>
+													                     <button type="button" onclick="overlay.style.display='none';" >
+																                              c'est pas la localisation du rdv
+																			                       </button>
+																                      </p>
+																		                       <p>
+																				                        <button type="button" onclick="overlay.style.display='none';">
+																								                         c'est la localisation du rdv
+																											                  </button>
+																													                   </p>
+
+																															           </div>
+  </div>

@@ -6,7 +6,7 @@
         <p class="card-text">by <%=ad["username"]%></p>
         <p class="card-text"> <%=ad["content"]%></p>
         <p class="card-text"> <a href="/oneonone/<%=ad["id"]%>" class="btn btn-primary"  >Voir cette relation one on one </a></p>
-        <p class="card-text"> vous avez validé cette réponse</p>
+	<p class="card-text"> <%="vous avez" if str(ad["user_id"]) != str(session["user_id"]) else "l'autre volontaire a"%> validé cette réponse</p>
       </div>
     </div>
   </div>

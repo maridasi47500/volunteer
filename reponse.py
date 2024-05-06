@@ -19,12 +19,12 @@ class Reponse(Model):
         self.con.commit()
         #self.con.close()
     def someoneonone(self,userid,reponseid):
-        self.cur.execute("select post.volunteer_id,u.username,post.title as reponsetext, reponse.*,post.id as postid  from reponse left join user u on reponse.user_id = u.id left join post on post.id = reponse.post_id left outer join validate on validate.reponse_id = reponse.id group by post.id having post.volunteer_id = ? and count(distinct validate.id) > 0 and reponse.id = ?",(userid,reponseid))
+        self.cur.execute("select reponse.user_id as reponseuser_id, post.volunteer_id,u.username,userr.username as otrusername, post.title as reponsetext, reponse.*,post.id as postid  from reponse left join user u on reponse.user_id = u.id left join post on post.id = reponse.post_id left join user userr on userr.id = post.volunteer_id left outer join validate on validate.reponse_id = reponse.id group by post.id having post.volunteer_id = ? or reponseuser_id = ? and count(distinct validate.id) > 0 and reponse.id = ?",(userid,userid,reponseid))
 
         row=self.cur.fetchone()
         return row
     def oneonone(self,userid):
-        self.cur.execute("select post.volunteer_id,u.username,post.title as reponsetext, reponse.*,post.id as postid  from reponse left join user u on reponse.user_id = u.id left join post on post.id = reponse.post_id left outer join validate on validate.reponse_id = reponse.id group by post.id having post.volunteer_id = ? and count(distinct validate.id) > 0",(userid,))
+        self.cur.execute("select reponse.user_id as reponseuser_id, post.volunteer_id,u.username,post.title as reponsetext, reponse.*,post.id as postid  from reponse left join user u on reponse.user_id = u.id left join post on post.id = reponse.post_id left outer join validate on validate.reponse_id = reponse.id group by post.id having post.volunteer_id = ? or reponseuser_id = ? and count(distinct validate.id) > 0",(userid,userid))
 
         row=self.cur.fetchall()
         return row
