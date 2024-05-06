@@ -83,7 +83,7 @@ class RenderFigure():
             k=[]
             paspremier=False
             ligne=0
-            loc={"db":Mydb(),"paspremier":False,as_: "","index":"",  "params": self.params,"render_collection":self.render_collection,"date":date,"datetime":datetime}
+            loc={"session":self.session,"db":Mydb(),"paspremier":False,as_: "","index":"",  "params": self.params,"render_collection":self.render_collection,"date":date,"datetime":datetime}
             for wow in mylocals:
                 loc[wow]=mylocals[wow]
             for x in collection:

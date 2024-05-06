@@ -28,6 +28,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<%="<span>Bienvenue "+db.User.getbyid(session["user_id"])["username"]+"</span>" if session["user_id"] != "" else "" %>
 	<%=Fichier("./mypage","connexion.html").lire() if session["user_id"] == "" else Fichier("./mypage","deconnexion.html").lire() %>
         <li class="nav-item">
           <a class="nav-link" href="/aboutme">ABout me</a>

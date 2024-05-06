@@ -1,5 +1,58 @@
 $(function(){
 
+if ($('.validerreponse').length > 0){
+$('.validerreponse').on('click', function () {
+  if (window.filesize > 1024*5) {
+    alert('max upload size is 5k');
+return false;
+  }
+var fd=new FormData();
+fd.set("reponse_id",$(this)[0].dataset.myid);
+fd.set("user_id",$(this)[0].dataset.userid);
+  $.ajax({
+    // Your server script to process the upload
+    url: "/validerreponse",
+    type: "post",
+
+    // Form data
+    data: fd,
+
+    // Tell jQuery not to process data or worry about content-type
+    // You *must* include these options!
+    cache: false,
+    contentType: false,
+    processData: false,
+
+    // Custom XMLHttpRequest
+    success: function (data) {
+	    console.log("HEY")
+	    console.log(JSON.stringify(data))
+	    console.log(JSON.stringify(data.redirect))
+	    if (data.redirect){
+	    window.location=data.redirect;
+	    }else{
+	    window.location="/";
+	    }
+},
+    xhr: function () {
+      var myXhr = $.ajaxSettings.xhr();
+      if (myXhr.upload) {
+        // For handling the progress of the upload
+        myXhr.upload.addEventListener('progress', function (e) {
+          if (e.lengthComputable) {
+            $('progress').attr({
+              value: e.loaded,
+              max: e.total,
+            });
+          }
+        }, false);
+      }
+      return myXhr;
+    }
+  });
+	return false;
+  });
+}
 if ($('.brouillons').length > 0){
 $('.brouillons').on('click', function () {
   if (window.filesize > 1024*5) {

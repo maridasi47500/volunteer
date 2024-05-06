@@ -176,6 +176,26 @@ class Route():
           self.set_notice("erreur quand vous avez envoyé le formulaire")
         self.render_figure.set_param("post_id",myparam["id"])
         return self.render_some_json("welcome/mypost.json")
+    def toutoneonone(self,search):
+        return self.render_figure.render_figure("welcome/oneonone.html")
+    def mesreponses(self,search):
+        return self.render_figure.render_figure("welcome/reponse.html")
+    def validerreponse(self,search):
+        myparam=self.get_post_data()(params=("reponse_id","user_id"))
+        hi=self.db.Validerreponse.create(myparam)
+        if hi:
+          self.set_notice("vous avez validé la réponse à votre annonce")
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+        return self.render_some_json("welcome/somereponse.json")
+    def reponse(self,search):
+        myparam=self.get_post_data()(params=("post_id","user_id","content"))
+        hi=self.db.Reponse.create(myparam)
+        if hi:
+          self.set_notice("votre réponse a été ajoutée")
+        else:
+          self.set_notice("erreur quand vous avez envoyé le formulaire")
+        return self.render_some_json("welcome/reponse.json")
     def createpost(self,search):
         myparam=self.get_post_data()(params=("band_id","user_id","title","content",))
         hi=self.db.Post.create(myparam)
@@ -310,6 +330,13 @@ class Route():
         self.render_figure.set_param("user",User().deletebyid(myparam["id"]))
         self.set_redirect("/")
         return self.render_figure.render_redirect()
+    def oneonone(self,params={}):
+        getparams=("id",)
+
+        myparam=self.get_this_route_param(getparams,params)
+        print("route params")
+        self.render_figure.set_param("reponse",self.db.Reponse.someoneonone(self.Program.get_session()["user_id"],myparam["id"]))
+        return self.render_figure.render_figure("welcome/someoneonone.html")
     def edit_user(self,params={}):
         getparams=("id",)
 
@@ -519,6 +546,11 @@ class Route():
             path=path.split("?")[0]
             print("link route ",path)
             ROUTES={
+            '^/validerreponse$': self.validerreponse,
+            '^/oneonone$': self.toutoneonone,
+            '^/oneonone/([0-9]+)$': self.oneonone,
+            '^/mesreponses$': self.mesreponses,
+            '^/repondre$': self.reponse,
             '^/voirpost/([0-9]+)$': self.voirpost,
             '^/createpost$': self.createpost,
             '^/addpost$': self.addpost,

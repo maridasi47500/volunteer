@@ -1,5 +1,5 @@
-<p>il faut se connecter pour répondre</p>
 <form method="post" action="/repondre">
+<input type="hidden" value="<%=params["post"]["id"]%>"  name="post_id"/>
 <input type="hidden" value="<%=session["user_id"]%>"  name="user_id"/>
 <textarea name="content">
 Bonjour,

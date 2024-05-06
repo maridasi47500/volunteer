@@ -9,5 +9,5 @@
 <p><%=post["content"]%></p>
 
 <h4>Répondre</h4>
-<%yo="form1.html" if session["user_id"] != "" else "form2" %>
-<%=Fichier("./welcome","form2.html").lire() %>
+<%yo="form1.html" if session["user_id"] != "" else "form2.html" %>
+<%=Fichier("./welcome",yo).lire() %>

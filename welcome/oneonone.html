@@ -1,0 +1,6 @@
+<h1>Mes relations One on One</h1>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+<%=render_collection(collection=db.Reponse.reponses(session["user_id"]), partial='welcome/_valide.html', as_='ad')%>
+<%="pas de reponses à mes annonces que j'ai valide" if len(db.Reponse.reponses(session["user_id"])) == 0 else ""%>
+</div>

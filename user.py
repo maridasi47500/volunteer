@@ -57,6 +57,12 @@ longitude text,
           row["notice"]="le numero de téléphone ou le mot de passe ne sont pas bon"
           row["user_id"]=""
         return row
+    def delete(self,myid):
+        self.cur.execute("delete from user where id = ?",(myid,))
+        self.con.commit()
+        row=(self.cur.lastrowid)
+        print(row, "last row id")
+        return row
     def getbyid(self,myid):
         self.cur.execute("select * from user where id = ?",(myid,))
         row=dict(self.cur.fetchone())
